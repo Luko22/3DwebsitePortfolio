@@ -1,19 +1,61 @@
-import React from 'react'
-import { useGLTF, PerspectiveCamera } from '@react-three/drei'
+// Model.jsx
+import React, { useEffect } from 'react';
+import { useGLTF, PerspectiveCamera, OrbitControls } from '@react-three/drei';
+import { DoubleSide } from 'three';
+import { loadTextures } from './textureLoader';
+import MeshComponent from './MeshComponent';
 
-export default function Model(props) {  // Changed to default export
-  const { nodes, materials } = useGLTF('/model.glb')
+export default function Model(props) {
+  const { nodes, materials } = useGLTF('/model.glb');
+  const textures = loadTextures();
+
+  useEffect(() => {
+    Object.values(materials).forEach(material => {
+      material.side = DoubleSide;
+    });
+  }, [materials]);
+
+  
+
+
   return (
     <group {...props} dispose={null}>
-      <group position={[-0.062, 0.956, 2.503]} rotation={[Math.PI / 2, 0, -Math.PI]}>
-        <mesh geometry={nodes.Pillow_01004.geometry} material={nodes.Pillow_01004.material} position={[0.117, 0.261, 0.321]} rotation={[2.9, -0.058, -3.033]} />
+      {/* Background Plane */}
+      <mesh position={[-100, 5, 0]} rotation={[0, Math.PI / 2, 0]} scale={[20, 10, 10]}>
+        <planeGeometry args={[10, 10]} />
+        <meshBasicMaterial map={textures.mountain} side={DoubleSide} />
+      </mesh>
+
+      {/* Use MeshComponent for reusable meshes */}
+      <MeshComponent
+        geometry={nodes.Cube005.geometry}
+        position={[1.211, -0.02, 0.095]}
+        rotation={[0, Math.PI / 2, 0]}
+        scale={[-1.162, -0.01, -1.24]}
+        texture={textures.cube005}
+      />
+
+      {/* Add more MeshComponents as needed */}
+      {/* Example for other meshes */}
+      {/* Your existing model components */}
+        <group position={[-0.062, 0.956, 2.503]} rotation={[Math.PI / 2, 0, -Math.PI]}>
+        <mesh geometry={nodes.Pillow_01004.geometry} 
+              material={nodes.Pillow_01004.material} 
+              position={[0.117, 0.261, 0.321]} 
+              rotation={[2.9, -0.058, -3.033]} />
         <mesh geometry={nodes.Pillow_01008.geometry} material={nodes.Pillow_01008.material} position={[-0.835, 0.299, 0.349]} rotation={[2.895, -0.029, 3.134]} />
       </group>
       <group position={[-1.022, 0.956, 2.014]} rotation={[Math.PI / 2, 0, -1.602]}>
         <mesh geometry={nodes.Pillow_01007.geometry} material={nodes.Pillow_01007.material} position={[0.189, 0.238, 0.323]} rotation={[2.84, -0.021, 3.028]} />
       </group>
-      <PerspectiveCamera makeDefault={true} far={1000} near={0.1} fov={47.82} position={[3.523, 1.475, 0]} rotation={[-1.576, 1.439, 1.576]} />
-      <pointLight intensity={1} decay={2} position={[1.808, 2.998, 0.385]} rotation={[-Math.PI / 2, 0, 0]} />
+      <PerspectiveCamera makeDefault={true} far={1000} near={0.1} fov={90} 
+                         position={[1.8, 1.4, 0]} 
+                         rotation={[-1.576, 1.439, 1.576]} />
+
+      <pointLight intensity={0.1} decay={2} 
+                  position={[1.808, 2.998, 0.385]} 
+                  rotation={[-Math.PI / 2, 0, 0]} />
+
       <mesh geometry={nodes.Cube.geometry} material={nodes.Cube.material} position={[-0.022, 1.498, 0.003]} scale={[0.7, 0.6, 1]} />
       <mesh geometry={nodes.sofa001.geometry} material={nodes.sofa001.material} position={[0.449, 0.049, -0.177]} rotation={[-3.141, -0.006, -3.139]} scale={[0.301, 0.693, 0.534]} />
       <mesh geometry={nodes.bed_frame.geometry} material={nodes.bed_frame.material} position={[-0.6, 0.42, -0.091]} rotation={[0, Math.PI / 2, 0]} scale={[0.858, 1, 0.63]} />
@@ -31,7 +73,7 @@ export default function Model(props) {  // Changed to default export
       <mesh geometry={nodes.Cube004.geometry} material={nodes.Cube004.material} position={[1.892, 0.744, 2.182]} scale={[-0.177, -0.001, -0.098]} />
       <mesh geometry={nodes.Reflection_Sky_Floor_Sphere.geometry} material={nodes.Reflection_Sky_Floor_Sphere.material} rotation={[Math.PI / 2, 0, 0]} />
       <mesh geometry={nodes.Reflection_Sky_Sphere.geometry} material={nodes.Reflection_Sky_Sphere.material} rotation={[Math.PI / 2, 0, 0]} />
-      <mesh geometry={nodes.Cube005.geometry} material={nodes.Cube005.material} position={[1.211, -0.02, 0.095]} rotation={[0, Math.PI / 2, 0]} scale={[-1.162, -0.01, -1.24]} />
+
       <mesh geometry={nodes.Cube006.geometry} material={nodes.Cube006.material} position={[1.079, 0.047, -0.05]} rotation={[-Math.PI, 1.564, -Math.PI]} scale={[0.567, 0.003, 0.391]} />
       <mesh geometry={nodes.merces.geometry} material={nodes.merces.material} position={[1.813, 1.197, -2.478]} rotation={[Math.PI / 2, 0, 0]} scale={0.657} />
       <mesh geometry={nodes.Rectangle001.geometry} material={nodes.Rectangle001.material} position={[0.022, 0.194, 0.427]} rotation={[0, 0, -Math.PI / 2]} scale={[-0.133, -0.103, -0.798]} />
@@ -43,8 +85,10 @@ export default function Model(props) {  // Changed to default export
       <mesh geometry={nodes['05Vidro_lente'].geometry} material={nodes['05Vidro_lente'].material} position={[0.064, 0.001, 0.026]} rotation={[0, 0, -Math.PI / 2]} />
       <mesh geometry={nodes['04mascara_lente'].geometry} material={nodes['04mascara_lente'].material} position={[0.064, 0.001, 0.026]} rotation={[0, 0, -Math.PI / 2]} />
       <mesh geometry={nodes.Leaf.geometry} material={nodes.Leaf.material} position={[0.002, 0, 0.021]} />
+
+      <OrbitControls enableZoom={true} minDistance={1} maxDistance={2.5} />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/model.glb')
+useGLTF.preload('/model.glb');

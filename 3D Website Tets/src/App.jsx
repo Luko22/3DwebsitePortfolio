@@ -7,10 +7,10 @@ function App() {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <Canvas
-        camera={{ position: [5, 5, 5], fov: 75 }}
+        camera={{ position: [1, 5, 5], fov: 75 }}
       >
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
         <Model />
         <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
       </Canvas>

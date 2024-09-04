@@ -1,0 +1,48 @@
+1- opne terminal and split it (two terminals)
+
+2- go to src file and run 
+    npx gltfjsx ../public/model.glb
+
+3- go to root file and run 
+    npm run dev  
+
+4- run 
+    npm run build
+and upload to aws
+
+///////////////////////////////////
+import React, { useEffect } from 'react';
+import { useGLTF, PerspectiveCamera, OrbitControls } from '@react-three/drei';
+import { DoubleSide } from 'three';
+import { loadTextures } from './textureLoader';
+import MeshComponent from './MeshComponent';
+
+export default function Model(props) {
+  const { nodes, materials } = useGLTF('/model.glb');
+  const textures = loadTextures();
+
+  useEffect(() => {
+    Object.values(materials).forEach(material => {
+      material.side = DoubleSide;
+    });
+  }, [materials]);
+
+  
+
+
+  return (
+    <group {...props} dispose={null}>
+      {/* Background Plane */}
+      <mesh position={[-100, 5, 0]} rotation={[0, Math.PI / 2, 0]} scale={[20, 10, 10]}>
+        <planeGeometry args={[10, 10]} />
+        <meshBasicMaterial map={textures.mountain} side={DoubleSide} />
+      </mesh>
+
+      {/* Use MeshComponent for reusable meshes */}
+      <MeshComponent
+        geometry={nodes.Cube005.geometry}
+        position={[1.211, -0.02, 0.095]}
+        rotation={[0, Math.PI / 2, 0]}
+        scale={[-1.162, -0.01, -1.24]}
+        texture={textures.cube005}
+      />
