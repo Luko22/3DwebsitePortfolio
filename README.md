@@ -1,5 +1,7 @@
 # 3DwebsitePortfolio
-This is still a work in progress. It will eventually become an interactive 3D Website Portfolio with animations (and a few cheeky surprises) in order to showcase myself and my skills. Basically, basically a project that bridges my software and hardware interests. STAY TUNED.
+This is still a work in progress. It will eventually become an interactive 3D Website Portfolio with animations (and a few cheeky surprises) in order to showcase myself and my skills. Basically, this is a project that bridges my software and hardware interests. One of my goals is to have take temperature and humidity measurements from a DHT22 sensor in my room and use S3 Buckets to store and display REALTIME values on 3d website.
+
+STAY TUNED....
 
 <!---
 - whole page is inside a 3d model of my room
