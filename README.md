@@ -1,7 +1,7 @@
 # 3DwebsitePortfolio
-An Interactive Portfolio
+This is still a work in progress. It will eventually become an interactive 3D Website Portfolio with animations (and a few cheeky surprises) in order to showcase myself and my skills. Basically, basically a project that bridges my software and hardware interests. STAY TUNED.
 
-
+<!---
 - whole page is inside a 3d model of my room
 - as you scroll down it moves along the room, 
 - introduction and explanations on the walls
